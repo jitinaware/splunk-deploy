@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# Referenced Documentation:
-# https://docs.splunk.com/Documentation/Splunk/7.2.6/Security/Secureyouradminaccount#Create_admin_credentials_for_automated_installations_with_the_.27hash-passwd.27_CLI_command
-
 # Variables
 
 SPLUNK_HOME=/opt/splunk/
 splunkuser=splunk                              # This is the user that Splunk runs as. Uncomment to enable.
 splunkgroup=splunk
+hostname=
+splunkinstancerole=
 #splunkuserpassword=                            # You can specify the password here, instead of the script prompting you.
                                                 # NOTE: THIS IS INSECURE. USE ONLY FOR TESTING PURPOSES!
 splunkinstallerfilename=splunk-8.0.3-a6754d8441bf-Linux-x86_64.tgz
@@ -45,14 +44,27 @@ if [ ! -x /usr/bin/wget ] ; then
     command -v wget >/dev/null 2>&1 || command sudo yum -y install wget
 fi
 
-## This section creates the splunk user
+## This section checks to see if the splunk user exists
+## and creates it if not
+if id "$splunkuser" >/dev/null 2>&1  ; then
+        echo "$splunkuser found, skipping creation"
+else
+        echo "$splunkuser not found creating..."
 
-sudo useradd splunk
+sudo useradd $splunkuser
 printf "Create password for $splunkuser user: "
 read_secret splunkuserpassword                                                                              # Prompts input for password
 sudo useradd -p $(openssl passwd -1 $splunkuserpassword) $splunkuser                                        # Creates user and sets password (encrypted)
 # echo splunk:$password | sudo chpasswd                                                                     # Another way to create the user, but unsure about 'echo' command security
-groupadd $splunkgroup                                                                                       # Creates the 'splunk' group
+
+## This section checks to see if the splunk group exists
+## and creates it if not
+if [ $(getent group $splunkgroup) ]; then
+        echo "$splunkgroup found, skipping creation"
+else
+        echo "$splunkgroup not found creating..."
+groupadd $splunkgroup
+fi
 
 
 
@@ -80,4 +92,6 @@ su - $splunkuser -c "sudo $SPLUNK_HOME/bin/splunk disable boot-start"
 sudo $SPLUNK_HOME/bin/splunk enable boot-start -systemd-managed 1 -user $splunkuser                             # Sets Splunk to run as $splunkuser on boot
 su - $splunkuser -c "$SPLUNK_HOME/bin/splunk start" 
 
+su - $splunkuser -c "/opt/splunk/bin/splunk set default-hostname $hostname"
+su - $splunkuser -c "/opt/splunk/bin/splunk set servername $hostname"
 #su - $splunkuser -c "$SPLUNK_HOME/bin/splunk edit licenser-localslave -master_uri 'https://master:port"         # Add license slave
