@@ -2,7 +2,7 @@
 
 # Variables
 
-SPLUNK_HOME=/opt/splunk/
+SPLUNK_HOME=/opt/splunk
 splunkuser=splunk                              # This is the user that Splunk runs as. Uncomment to enable.
 splunkgroup=splunk
 hostname=
@@ -47,11 +47,11 @@ fi
 ## This section checks to see if the splunk user exists
 ## and creates it if not
 if id "$splunkuser" >/dev/null 2>&1  ; then
-        echo "$splunkuser found, skipping creation"
+        echo "User $splunkuser found, skipping creation"
 else
-        echo "$splunkuser not found creating..."
+        echo "User $splunkuser not found creating..."
 fi
-sudo useradd $splunkuser
+#sudo useradd $splunkuser               # old method, was causing auth failures when switching to $splunkuser
 printf "Create password for $splunkuser user: "
 read_secret splunkuserpassword                                                                              # Prompts input for password
 sudo useradd -p $(openssl passwd -1 $splunkuserpassword) $splunkuser                                        # Creates user and sets password (encrypted)
@@ -60,9 +60,9 @@ sudo useradd -p $(openssl passwd -1 $splunkuserpassword) $splunkuser            
 ## This section checks to see if the splunk group exists
 ## and creates it if not
 if [ $(getent group $splunkgroup) ]; then
-        echo "$splunkgroup found, skipping creation"
+        echo "Group $splunkgroup found, skipping creation"
 else
-        echo "$splunkgroup not found creating..."
+        echo "Group $splunkgroup not found creating..."
 groupadd $splunkgroup
 fi
 
