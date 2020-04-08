@@ -9,8 +9,8 @@ hostname=
 splunkinstancerole=
 #splunkuserpassword=                            # You can specify the password here, instead of the script prompting you.
                                                 # NOTE: THIS IS INSECURE. USE ONLY FOR TESTING PURPOSES!
-splunkinstallerfilename=splunk-8.0.3-a6754d8441bf-Linux-x86_64.tgz
-splunkinstallerdownloadurl="wget -O splunk-8.0.3-a6754d8441bf-Linux-x86_64.tgz 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=8.0.3&product=splunk&filename=splunk-8.0.3-a6754d8441bf-Linux-x86_64.tgz&wget=true'"
+splunkinstallerfilename=splunk-8.0.3.tgz
+splunkinstallerdownload="wget -O $splunkinstallerfilename 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=8.0.3&product=splunk&filename=splunk-8.0.3-a6754d8441bf-Linux-x86_64.tgz&wget=true'"
 
 
 
@@ -79,7 +79,7 @@ else
 fi
 
 sudo mkdir $SPLUNK_HOME
-wget -O splunk-8.0.3-a6754d8441bf-Linux-x86_64.tgz 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=8.0.3&product=splunk&filename=splunk-8.0.3-a6754d8441bf-Linux-x86_64.tgz&wget=true'
+$splunkinstallerdownload                     #Downloads
 sudo tar -xzvC /opt -f $splunkinstallerfilename
 sudo chown -vR $splunkuser:$splunkgroup $SPLUNK_HOME                                                             # Takes ownership of $SPLUNK_HOME to $splunkuser
 
