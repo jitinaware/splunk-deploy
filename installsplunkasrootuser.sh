@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Referenced Documentation:
-# https://docs.splunk.com/Documentation/Splunk/7.2.6/Security/Secureyouradminaccount#Create_admin_credentials_for_automated_installations_with_the_.27hash-passwd.27_CLI_command
+# Not tested on 8.x and above!
 
 # Variables
 
@@ -58,16 +57,15 @@ else
 fi
 
 sudo mkdir $SPLUNK_HOME
-
-sudo chown -vR root:root $SPLUNK_HOME                                                             # Takes ownership of $SPLUNK_HOME to $splunkuser
-
-#su - $splunkuser          
 $splunkinstallerdownload
 sudo tar -xzvC /opt -f $splunkinstallerfilename
-#- Package extracts to /opt/splunk/
-sudo chown -R splunk /opt/splunk
+sudo chown -vR root $SPLUNK_HOME                                                             # Takes ownership of $SPLUNK_HOME to $splunkuser
 
-su - $splunkuser -c "$SPLUNK_HOME/bin/splunk start --accept-license"               # Starts splunk as $splunkuser, still needs password input, admin acct not created
+$SPLUNK_HOME/bin/splunk start --accept-license                                               # Starts splunk as $splunkuser, still needs password input, admin acct not created
+sudo $SPLUNK_HOME/bin/splunk enable boot-start                                               # Sets splunk to start on boot
 
-sudo $SPLUNK_HOME/bin/splunk enable boot-start -user $splunkuser                                            # Sets splunk to start on boot as $splunkuser
+$SPLUNK_HOME/bin/splunk start --accept-license     
 
+#$SPLUNK_HOME/bin/splunk set default-hostname $hostname
+#$SPLUNK_HOME/bin/splunk set servername $hostname
+#$SPLUNK_HOME/bin/splunk edit licenser-localslave -master_uri 'https://master:port'      # Add license slave
