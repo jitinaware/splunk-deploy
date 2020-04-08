@@ -62,9 +62,7 @@ sudo tar -xzvC /opt -f $splunkinstallerfilename
 sudo chown -vR root $SPLUNK_HOME                                                             # Takes ownership of $SPLUNK_HOME to $splunkuser
 
 $SPLUNK_HOME/bin/splunk start --accept-license                                               # Starts splunk as $splunkuser, still needs password input, admin acct not created
-sudo $SPLUNK_HOME/bin/splunk enable boot-start                                               # Sets splunk to start on boot
-
-$SPLUNK_HOME/bin/splunk start --accept-license     
+sudo $SPLUNK_HOME/bin/splunk enable boot-start                                               # Sets splunk to start on boot  
 
 #$SPLUNK_HOME/bin/splunk set default-hostname $hostname
 #$SPLUNK_HOME/bin/splunk set servername $hostname
