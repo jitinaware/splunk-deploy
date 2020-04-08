@@ -10,7 +10,7 @@ splunkgroup=splunk
 splunkuserpassword=                           # You can specify the password here, instead of the script prompting you.
                                                 # NOTE: THIS IS INSECURE. USE ONLY FOR TESTING PURPOSES!
 splunkinstallerfilename=splunk-7.3.5.tgz
-splunkinstallerdownload="wget -O splunk-7.3.5-86fd62efc3d7-Linux-x86_64.tgz https://www.splunk.com/page/download_track?file=7.3.5/linux/splunk-7.3.5-86fd62efc3d7-Linux-x86_64.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=x86_64&version=7.3.5&product=splunk&typed=release"
+splunkinstallerdownload="wget -O $splunkinstallerfilename https://www.splunk.com/page/download_track?file=7.3.5/linux/splunk-7.3.5-86fd62efc3d7-Linux-x86_64.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=x86_64&version=7.3.5&product=splunk&typed=release"
 
 
 
