@@ -10,7 +10,7 @@ splunkinstancerole=
 #splunkuserpassword=                            # You can specify the password here, instead of the script prompting you.
                                                 # NOTE: THIS IS INSECURE. USE ONLY FOR TESTING PURPOSES!
 splunkinstallerfilename=splunk-8.0.3.tgz
-splunkinstallerdownload="wget -O $splunkinstallerfilename 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=8.0.3&product=splunk&filename=splunk-8.0.3-a6754d8441bf-Linux-x86_64.tgz&wget=true'"
+splunkinstallerdownload="wget -O $splunkinstallerfilename https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=8.0.3&product=splunk&filename=splunk-8.0.3-a6754d8441bf-Linux-x86_64.tgz&wget=true"
 
 
 
@@ -50,7 +50,7 @@ if id "$splunkuser" >/dev/null 2>&1  ; then
         echo "$splunkuser found, skipping creation"
 else
         echo "$splunkuser not found creating..."
-
+fi
 sudo useradd $splunkuser
 printf "Create password for $splunkuser user: "
 read_secret splunkuserpassword                                                                              # Prompts input for password
