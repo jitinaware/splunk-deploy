@@ -1,6 +1,12 @@
 # splunk-deploy
 A collection of Splunk deployment scripts in various scenarios
 
+# Changelog
+
+2021-07-27
+- changed main branch from 'master' to 'primary'
+- revamped script, added license file and user credentials
+
 # Usage
 
 1. Populate license.lic with your license file
